@@ -2,7 +2,7 @@
 
 data: https://www.kaggle.com/c/dogs-vs-cats/data
 
-Support Python 2.7 and Python 3.6 (tensoflow does not support Python 3.7 at the moment).
+Support Python 2.7 and Python 3.6 (tensorflow does not support Python 3.7 at the moment).
 
 > Warning: This is a draft for demo.
 

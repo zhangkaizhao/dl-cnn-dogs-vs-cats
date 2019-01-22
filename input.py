@@ -54,6 +54,7 @@ def organize_datasets(
 
     cats_val_dirpath = os.path.join("data", "validation", "cats")
     dogs_val_dirpath = os.path.join("data", "validation", "dogs")
+
     for v in tqdm(to_val):
         if "cat" in v:
             shutil.copy2(v, cats_val_dirpath)
