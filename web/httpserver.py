@@ -3,13 +3,10 @@ from concurrent import futures
 from io import BytesIO
 import json
 import os.path
-import tempfile
 
 from PIL import Image
 from aiohttp import web
-from aiohttp.web_fileresponse import FileResponse
 from keras.models import load_model
-from keras.preprocessing import image
 import numpy as np
 
 from .prediction import predict
@@ -22,19 +19,6 @@ executor = futures.ThreadPoolExecutor(max_workers=MAX_THREAD_WORKERS)
 
 _here = os.path.abspath(os.path.dirname(__file__))
 home_filepath = os.path.join(_here, "static", "index.html")
-
-
-# def predict(model, img):
-#     if img.mode != "RGB":
-#         img = img.convert("RGB")
-#
-#     img = img.resize(IMAGE_TARGET_SIZE)
-#
-#     img_tensor = image.img_to_array(img)
-#     img_tensor = np.expand_dims(img_tensor, axis=0)
-#     img_tensor /= 255.0
-#
-#     return model.predict(img_tensor)
 
 
 def is_cat(cat_is_smaller, prediction):
@@ -112,7 +96,7 @@ def init(cnn_network):
     cat_is_smaller = classes["cats"] < classes["dogs"]
     app["cat_is_smaller"] = cat_is_smaller
 
-    app.add_routes([web.get('/', home)])
+    app.add_routes([web.get("/", home)])
     app.add_routes([web.post("/new_file", new_file)])
 
     return app

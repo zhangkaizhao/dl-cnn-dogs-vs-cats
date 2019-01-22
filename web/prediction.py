@@ -31,21 +31,17 @@ if __name__ == "__main__":
 
     cat_img_filepaths = [
         os.path.join("data/validation/cats", path)
-        for path in random.sample(
-            os.listdir("data/validation/cats"),
-            10)
+        for path in random.sample(os.listdir("data/validation/cats"), 10)
     ]
     dog_img_filepaths = [
         os.path.join("data/validation/dogs", path)
-        for path in random.sample(
-            os.listdir("data/validation/dogs"),
-            10)
+        for path in random.sample(os.listdir("data/validation/dogs"), 10)
     ]
 
     for class_, img_filepaths in [
-            ("cats", cat_img_filepaths),
-            ("dogs", dog_img_filepaths),
-            ]:
+        ("cats", cat_img_filepaths),
+        ("dogs", dog_img_filepaths),
+    ]:
         for img_filepath in img_filepaths:
             prediction = predict(model, img_filepath)
             print(img_filepath)

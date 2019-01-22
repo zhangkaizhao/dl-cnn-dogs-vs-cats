@@ -7,7 +7,6 @@ from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
 from keras_tqdm import TQDMCallback
-from tqdm import tqdm
 
 from settings import BATCH_SIZE, TARGET_SIZE, TRAIN_RATIO, TRAIN_TOTAL
 
@@ -138,7 +137,8 @@ fitted_model = model.fit_generator(
     callbacks=[
         TQDMCallback(leave_inner=True, leave_outer=True),
         early_stopping,
-        history],
+        history,
+    ],
     verbose=0,
 )
 
