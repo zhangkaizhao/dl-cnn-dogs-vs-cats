@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+
+.mypy_cache/
+
+*.egg
+*.egg-info
+
+*.log
+*.pid
+*.sock*
+
+venv/
+
+all/
+data/
+backup/
