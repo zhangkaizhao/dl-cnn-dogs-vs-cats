@@ -87,6 +87,14 @@ python train_vgg16.py
 
 Trained models are saved in `models/` directory.
 
+## Local testing
+
+Use 10 random validation image files of per dogs and cats classes for local testing:
+
+```sh
+python web/prediction.py
+```
+
 ## Serving HTTP server
 
 Running an `aiohttp` HTTP server for uploadng image files for prediction:
