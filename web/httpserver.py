@@ -9,7 +9,7 @@ from aiohttp import web
 from keras.models import load_model
 import numpy as np
 
-from .prediction import predict
+from .prediction import predict_classes
 
 MAX_THREAD_WORKERS = 5
 MAX_FILE_SIZE = 1 * 1024 * 1024  # 1 MiB
@@ -21,14 +21,9 @@ _here = os.path.abspath(os.path.dirname(__file__))
 home_filepath = os.path.join(_here, "static", "index.html")
 
 
-def is_cat(cat_is_smaller, prediction):
-    result_is_smaller = prediction[0][0] < prediction[0][1]
-    if cat_is_smaller and result_is_smaller:
-        return True
-    elif (not cat_is_smaller) and (not result_is_smaller):
-        return True
-    else:
-        return False
+def is_cat(value_to_class, predicted_classes):
+    class_value = predicted_classes[0]
+    return value_to_class.get(class_value) == "cats"
 
 
 async def home(request):
@@ -65,14 +60,19 @@ async def new_file(request):
         raise web.HTTPBadRequest(text="only support JPEG format")
 
     model = request.app["cnn_model"]
-    cat_is_smaller = request.app["cat_is_smaller"]
+    value_to_class = request.app["cnn_model_value_to_class"]
 
     loop = asyncio.get_event_loop()
-    prediction = await loop.run_in_executor(executor, predict, model, buf)
+    predicted_classes = await loop.run_in_executor(
+        executor,
+        predict_classes,
+        model,
+        buf,
+    )
 
     buf.close()
 
-    if is_cat(cat_is_smaller, prediction):
+    if is_cat(value_to_class, predicted_classes):
         text = "是猫"
     else:
         text = "不是猫"
@@ -93,8 +93,8 @@ def init(cnn_network):
     with open(classes_filepath, "r") as f:
         classes = json.load(f)
 
-    cat_is_smaller = classes["cats"] < classes["dogs"]
-    app["cat_is_smaller"] = cat_is_smaller
+    value_to_class = {v: k for (k, v) in classes.items()}
+    app["cnn_model_value_to_class"] = value_to_class
 
     app.add_routes([web.get("/", home)])
     app.add_routes([web.post("/new_file", new_file)])

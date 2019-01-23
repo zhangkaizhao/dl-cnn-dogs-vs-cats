@@ -11,9 +11,9 @@ def load_image(filepath):
     return img_tensor
 
 
-def predict(model, image_filepath):
+def predict_classes(model, image_filepath):
     img_tensor = load_image(image_filepath)
-    return model.predict(img_tensor)
+    return model.predict_classes(img_tensor)
 
 
 if __name__ == "__main__":
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     with open("models/classes_lenet5.json", "r") as f:
         classes = json.load(f)
 
-    cat_is_smaller = classes["cats"] < classes["dogs"]
+    value_to_class = {v: k for (k, v) in classes.items()}
 
     cat_img_filepaths = [
         os.path.join("data/validation/cats", path)
@@ -43,17 +43,10 @@ if __name__ == "__main__":
         ("dogs", dog_img_filepaths),
     ]:
         for img_filepath in img_filepaths:
-            prediction = predict(model, img_filepath)
+            predicted_classes = predict_classes(model, img_filepath)
             print(img_filepath)
-            print(prediction)
-            result_is_smaller = prediction[0][0] < prediction[0][1]
-            if cat_is_smaller and result_is_smaller:
-                is_cat = True
-            elif (not cat_is_smaller) and (not result_is_smaller):
-                is_cat = True
-            else:
-                is_cat = False
-            # is_cat = (cat_is_smaller + result_is_smaller) != 1
+            class_value = predicted_classes[0]
+            is_cat = value_to_class.get(class_value) == "cats"
             print("cat? {}".format(is_cat))
             print("")
         print("")
