@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import asyncio
 from concurrent import futures
 from io import BytesIO
@@ -74,9 +73,9 @@ async def new_file(request):
     buf.close()
 
     if is_cat(value_to_class, predicted_classes):
-        text = u"是猫"
+        text = "是猫"
     else:
-        text = u"不是猫"
+        text = "不是猫"
 
     return web.Response(text=text)
 
