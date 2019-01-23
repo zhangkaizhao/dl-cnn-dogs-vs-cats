@@ -4,6 +4,8 @@ data: https://www.kaggle.com/c/dogs-vs-cats/data
 
 Support Python 2.7 and Python 3.6 (tensorflow does not support Python 3.7 at the moment).
 
+(But HTTP server only supports Python 3 due to aiohttp.)
+
 > Warning: This is a draft for demo.
 
 ## Preparation
