@@ -201,8 +201,8 @@ model = Sequential()
 # As we have set the `class_mode` to `"categorical"` for image data
 # augmentation generators, we will use 2D convolutional layers.
 
-# For max pooling shape, typical values are 2×2. Very large input volumes may
-# warrant 4×4 pooling in the lower layers. However, choosing larger shapes will
+# For max pooling shape, typical values are 2x2. Very large input volumes may
+# warrant 4x4 pooling in the lower layers. However, choosing larger shapes will
 # dramatically reduce the dimension of the signal, and may result in excess
 # information loss. Often, non-overlapping pooling windows perform best.
 # (via https://en.wikipedia.org/wiki/Convolutional_neural_network#Max_pooling_shape )
